@@ -1,4 +1,5 @@
-import constants from "./../../src/constants";
+import constants from './../../src/constants';
+import * as actions from './../../src/actions';
 import songChangeReducer from './../../src/reducers/songChangeReducer';
 import lyricChangeReducer from './../../src/reducers/lyricChangeReducer';
 import rootReducer from './../../src/reducers/';
@@ -10,25 +11,35 @@ describe('Karaoke App', () => {
 
   describe('lyricChangeReducer', () => {
     it('Should accept and return initial state.', () => {
-      expect(lyricChangeReducer(initialState.songsById, { type: null })).toEqual(initialState.songsById);
+      expect(
+        lyricChangeReducer(initialState.songsById, { type: null })
+      ).toEqual(initialState.songsById);
     });
 
     it('Should update currently-displayed lyric of song', () => {
-      expect(lyricChangeReducer(initialState.songsById, { type: 'NEXT_LYRIC', currentSongId: 2 })[2].arrayPosition).toEqual(initialState.songsById[2].arrayPosition + 1);
+      expect(
+        lyricChangeReducer(initialState.songsById, actions.nextLyric(2))[2]
+          .arrayPosition
+      ).toEqual(initialState.songsById[2].arrayPosition + 1);
     });
 
     it('Should restart song', () => {
-      expect(lyricChangeReducer(initialState.songsById, { type: 'RESTART_SONG', currentSongId: 1 })[1].arrayPosition).toEqual(0);
+      expect(
+        lyricChangeReducer(initialState.songsById, actions.restartSong(1))[1]
+          .arrayPosition
+      ).toEqual(0);
     });
   });
 
   describe('songChangeReducer', () => {
     it('Should accept and return initial state.', () => {
-      expect(songChangeReducer(initialState, { type: null })).toEqual(initialState);
+      expect(songChangeReducer(initialState, { type: null })).toEqual(
+        initialState
+      );
     });
 
     it('Should change selectedSong.', () => {
-      expect(songChangeReducer(initialState, { type: 'CHANGE_SONG', newSelectedSongId: 1 })).toEqual(1);
+      expect(songChangeReducer(initialState, actions.changeSong(1))).toEqual(1);
     });
   });
 
@@ -38,9 +49,12 @@ describe('Karaoke App', () => {
     });
 
     it('Should contain logic from both reducers.', () => {
-      expect(store.getState().currentSongId).toEqual(songChangeReducer(undefined, { type: null }));
-      expect(store.getState().songsById).toEqual(lyricChangeReducer(undefined, { type: null }));
+      expect(store.getState().currentSongId).toEqual(
+        songChangeReducer(undefined, { type: null })
+      );
+      expect(store.getState().songsById).toEqual(
+        lyricChangeReducer(undefined, { type: null })
+      );
     });
   });
-
 });

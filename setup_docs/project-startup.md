@@ -1,6 +1,6 @@
 * ```npm init```
 
-* .gitignor
+* .gitignore
 
   ```
   .DS_STORE
